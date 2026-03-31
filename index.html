@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Absensi Magang Coquette Cat</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Cormorant+Garamond:wght@500;600;700&family=DM+Serif+Display:ital@0;1&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- PAGE 1 -->
+  <section id="page1" class="page active">
+    <div class="landing-bg"></div>
+    <div class="landing-overlay"></div>
+
+    <div class="landing-paw paw-a">🐾</div>
+    <div class="landing-paw paw-b">🐾</div>
+    <div class="landing-paw paw-c">🐾</div>
+
+    <div class="hero">
+      <div class="hero-tag">Welcome, this is for you</div>
+
+      <h1 class="hero-title" aria-label="ABSENSI">
+        <span>A</span><span>B</span><span>S</span><span>E</span><span>N</span><span>S</span><span>I</span>
+      </h1>
+
+      <button id="openBtn" class="open-btn" type="button">
+        <span class="open-paper o1">O</span>
+        <span class="open-paper o2">P</span>
+        <span class="open-paper o3">E</span>
+        <span class="open-paper o4">N</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- PAGE 2 -->
+  <section id="page2" class="page">
+    <div class="app-shell">
+      <div class="ornament flower-1">✿</div>
+      <div class="ornament flower-2">❀</div>
+      <div class="ornament sparkle-1">✦</div>
+
+      <div class="top-grid">
+        <!-- LEFT -->
+        <div class="scan-panel panel fade-left">
+          <div class="panel-title">Scan Kamera ID Card</div>
+
+          <div class="video-box">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="canvasCapture" hidden></canvas>
+
+            <div class="video-overlay">
+              <div class="scan-frame">
+                <div class="scan-line"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="camera-actions">
+            <button id="startCameraBtn" class="pill-btn primary" type="button">Aktifkan Kamera</button>
+            <button id="scanBtn" class="pill-btn soft" type="button">Scan ID Card</button>
+            <button id="stopCameraBtn" class="pill-btn soft" type="button">Matikan Kamera</button>
+            <button id="resetScanBtn" class="pill-btn soft" type="button">Reset Hasil</button>
+          </div>
+
+          <div class="scan-result">
+            <div class="scan-result-title">ID Card terdeteksi</div>
+            <pre id="ocrResult">Belum ada hasil scan.</pre>
+            <div class="scan-note">
+              Scan kamera hanya membaca <strong>ID Card</strong>. Nama, NIM, dan Jurusan diisi manual.
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="form-panel panel fade-up">
+          <div class="right-head">
+            <div class="filter-title-wrap">
+              <div class="sparkle-title">✦</div>
+              <h2 class="filter-title">FILTER</h2>
+            </div>
+
+            <div class="theme-switcher">
+              <div class="theme-label">Warna Tema</div>
+              <div class="theme-options">
+                <button class="theme-dot active" type="button" data-theme="pastel-purple" title="Pastel Ungu"></button>
+                <button class="theme-dot" type="button" data-theme="pastel-pink" title="Pastel Pink"></button>
+                <button class="theme-dot" type="button" data-theme="pastel-blue" title="Pastel Biru"></button>
+                <button class="theme-dot" type="button" data-theme="pastel-green" title="Pastel Hijau"></button>
+                <button class="theme-dot" type="button" data-theme="pastel-brown" title="Pastel Coklat"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="cat-banner">
+            <span>🐾</span>
+            <span>Input Absensi</span>
+            <span>🐈</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="field full">
+              <label>ID Card aktif</label>
+              <input id="idCard" type="text" placeholder="Contoh: PKL 25" />
+            </div>
+
+            <div class="field">
+              <label>Nama</label>
+              <input id="nama" type="text" placeholder="Isi manual nama" />
+            </div>
+
+            <div class="field">
+              <label>NIM</label>
+              <input id="nim" type="text" placeholder="Isi manual NIM" />
+            </div>
+
+            <div class="field full">
+              <label>Jurusan</label>
+              <input id="jurusan" type="text" placeholder="Isi manual jurusan" />
+            </div>
+
+            <div class="field">
+              <label>Hari ke-</label>
+              <select id="hariKe">
+                <option value="">Pilih hari</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Tanggal</label>
+              <input id="tanggal" type="date" />
+            </div>
+
+            <div class="field full">
+              <label>Keterangan</label>
+              <select id="keterangan">
+                <option value="Hadir">Hadir</option>
+                <option value="Izin">Izin</option>
+                <option value="Sakit">Sakit</option>
+                <option value="Alpha">Alpha</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label>Atau isi manual ID Card</label>
+              <input id="manualIdCard" type="text" placeholder="Contoh: PKL 25" />
+            </div>
+          </div>
+
+          <div class="menu-row">
+            <button id="saveBtn" class="menu-btn" type="button">
+              <span class="menu-text">Save</span>
+              <span class="paw paw-1">🐾</span>
+            </button>
+
+            <button id="clearBtn" class="menu-btn" type="button">
+              <span class="menu-text">Clear</span>
+              <span class="paw paw-2">🐱</span>
+            </button>
+
+            <button id="printBtn" class="menu-btn" type="button">
+              <span class="menu-text">Cetak PDF</span>
+              <span class="paw paw-3">🐈</span>
+            </button>
+
+            <button id="backBtn" class="menu-btn" type="button">
+              <span class="menu-text">Back</span>
+              <span class="paw paw-4">🐾</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="identity-panel panel soft-pop">
+        <div class="small-title">Data utama untuk hasil cetak</div>
+        <div class="identity-grid">
+          <div class="field">
+            <label>Nama</label>
+            <input id="printNama" type="text" placeholder="Nama untuk lembar absensi" />
+          </div>
+
+          <div class="field">
+            <label>NIM</label>
+            <input id="printNim" type="text" placeholder="NIM untuk lembar absensi" />
+          </div>
+
+          <div class="field">
+            <label>Jurusan</label>
+            <input id="printJurusan" type="text" placeholder="Jurusan untuk lembar absensi" />
+          </div>
+
+          <div class="field">
+            <label>ID Card</label>
+            <input id="printIdCard" type="text" placeholder="ID Card untuk lembar absensi" />
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-panel panel soft-pop">
+        <div class="small-title">Filter Data</div>
+        <div class="filter-grid">
+          <input id="searchInput" type="text" placeholder="Cari ID / nama / jurusan..." />
+          <select id="filterStatus">
+            <option value="">Semua status</option>
+            <option value="Hadir">Hadir</option>
+            <option value="Izin">Izin</option>
+            <option value="Sakit">Sakit</option>
+            <option value="Alpha">Alpha</option>
+          </select>
+          <input id="filterDate" type="date" />
+        </div>
+      </div>
+
+      <div class="table-panel panel zoom-in">
+        <div class="table-head">
+          <div class="table-chip">No</div>
+          <div class="table-chip">ID Card</div>
+          <div class="table-chip">Hari</div>
+          <div class="table-chip">Tanggal</div>
+          <div class="table-chip">Keterangan</div>
+          <div class="table-chip">Dibuat</div>
+          <div class="table-chip">Aksi</div>
+        </div>
+
+        <div id="tableBody" class="table-body"></div>
+        <div id="emptyState" class="empty-state">Belum ada data absensi. Isi form atau scan kartu dulu ya ♡</div>
+      </div>
+    </div>
+
+    <!-- PRINT AREA -->
+    <section id="printSheet" class="print-sheet">
+      <div class="print-meta">
+        <div id="printGeneratedTime">31/03/26, 9:35 AM</div>
+        <div class="print-center-title">Lembar Absensi</div>
+      </div>
+
+      <div class="print-content">
+        <h1>ABSENSI MAGANG</h1>
+
+        <div class="identity-text">
+          <p><strong>Nama:</strong> <span id="outNama">-</span></p>
+          <p><strong>NIM:</strong> <span id="outNim">-</span></p>
+          <p><strong>Jurusan:</strong> <span id="outJurusan">-</span></p>
+          <p><strong>ID Card:</strong> <span id="outIdCard">-</span></p>
+        </div>
+
+        <table class="print-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>ID Card</th>
+              <th>Hari ke-</th>
+              <th>Tanggal</th>
+              <th>Keterangan</th>
+              <th>Dibuat</th>
+            </tr>
+          </thead>
+          <tbody id="printTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+</body>
+</html>
